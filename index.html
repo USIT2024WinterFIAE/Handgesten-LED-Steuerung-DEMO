@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hand Tracking mit MediaPipe</title>
+    <!-- MediaPipe Abhängigkeiten -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .video-container {
+            position: relative;
+            flex: 1;
+            margin-right: 20px;
+        }
+        #output_canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .led-container {
+            width: 200px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            height: fit-content;
+        }
+        .led {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 10px;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+        .led-label {
+            display: inline-block;
+            margin-left: 10px;
+            width: 100px;
+        }
+        .led-row {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .led-off {
+            background-color: gray;
+        }
+        .led-on {
+            background-color: #4CAF50;
+            box-shadow: 0 0 10px #4CAF50;
+        }
+        .status {
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="video-container">
+            <video id="input_video" width="640" height="480" style="display: none;"></video>
+            <canvas id="output_canvas" width="640" height="480"></canvas>
+        </div>
+        <div class="led-container">
+            <h3>Finger Status</h3>
+            <div id="status" class="status">Warte auf Kamera...</div>
+            <div class="led-row">
+                <div id="led-thumb" class="led led-off"></div>
+                <span class="led-label">Daumen</span>
+            </div>
+            <div class="led-row">
+                <div id="led-index" class="led led-off"></div>
+                <span class="led-label">Zeigefinger</span>
+            </div>
+            <div class="led-row">
+                <div id="led-middle" class="led led-off"></div>
+                <span class="led-label">Mittelfinger</span>
+            </div>
+            <div class="led-row">
+                <div id="led-ring" class="led led-off"></div>
+                <span class="led-label">Ringfinger</span>
+            </div>
+            <div class="led-row">
+                <div id="led-pinky" class="led led-off"></div>
+                <span class="led-label">Kleiner</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let handTracking;
+
+        class HandTrackingWeb {
+            constructor() {
+                this.videoElement = document.getElementById('input_video');
+                this.canvasElement = document.getElementById('output_canvas');
+                this.canvasCtx = this.canvasElement.getContext('2d');
+                this.statusElement = document.getElementById('status');
+                this.fingerLEDs = [
+                    document.getElementById('led-thumb'),
+                    document.getElementById('led-index'),
+                    document.getElementById('led-middle'),
+                    document.getElementById('led-ring'),
+                    document.getElementById('led-pinky')
+                ];
+
+                this.hands = new Hands({
+                    locateFile: (file) => {
+                        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+                    }
+                });
+
+                this.hands.setOptions({
+                    maxNumHands: 1,
+                    modelComplexity: 1,
+                    minDetectionConfidence: 0.5,
+                    minTrackingConfidence: 0.5
+                });
+
+                this.hands.onResults(this.onResults.bind(this));
+                this.camera = null;
+            }
+
+            async setupCamera() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: 640, height: 480 }
+                    });
+                    this.videoElement.srcObject = stream;
+                    await new Promise((resolve) => {
+                        this.videoElement.onloadedmetadata = () => {
+                            resolve();
+                        };
+                    });
+                    this.videoElement.play();
+                    this.statusElement.textContent = "Kamera bereit";
+                    this.startTracking();
+                } catch (error) {
+                    this.statusElement.textContent = "Fehler beim Zugriff auf die Kamera";
+                    console.error('Fehler:', error);
+                }
+            }
+
+            startTracking() {
+                this.camera = new Camera(this.videoElement, {
+                    onFrame: async () => {
+                        await this.hands.send({image: this.videoElement});
+                    },
+                    width: 640,
+                    height: 480
+                });
+                this.camera.start();
+            }
+
+            detectFingers(landmarks) {
+                const fingerStates = [false, false, false, false, false];
+                
+                // Daumen (basierend auf der x-Position)
+                fingerStates[0] = landmarks[4].x < landmarks[3].x; // Geänderte Bedingung für den Daumen
+                
+                // Andere Finger (basierend auf der y-Position)
+                const fingerTips = [8, 12, 16, 20]; // Index, Mittel, Ring, Klein
+                for (let i = 0; i < 4; i++) {
+                    const tip = fingerTips[i];
+                    fingerStates[i + 1] = landmarks[tip].y < landmarks[tip - 2].y;
+                }
+
+                return fingerStates;
+            }
+
+            updateLEDs(fingerStates) {
+                fingerStates.forEach((isUp, index) => {
+                    const led = this.fingerLEDs[index];
+                    if (isUp) {
+                        led.classList.remove('led-off');
+                        led.classList.add('led-on');
+                    } else {
+                        led.classList.remove('led-on');
+                        led.classList.add('led-off');
+                    }
+                });
+            }
+
+            onResults(results) {
+                // Canvas löschen
+                this.canvasCtx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
+
+                // Kamerabild spiegeln und zeichnen
+                this.canvasCtx.save();
+                this.canvasCtx.translate(this.canvasElement.width, 0);
+                this.canvasCtx.scale(-1, 1);
+                this.canvasCtx.drawImage(
+                    results.image, 0, 0, this.canvasElement.width, this.canvasElement.height);
+                this.canvasCtx.restore();
+
+                if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                    this.statusElement.textContent = "Hand erkannt";
+
+                    for (const landmarks of results.multiHandLandmarks) {
+                    // Spiegeln der x-Koordinaten
+                    for (let i = 0; i < landmarks.length; i++) {
+                            landmarks[i].x = 1 - landmarks[i].x;
+                        }
+
+                        // Hand-Landmarks zeichnen
+                        drawConnectors(this.canvasCtx, landmarks, HAND_CONNECTIONS,
+                            { color: '#00FF00', lineWidth: 5 });
+                        drawLandmarks(this.canvasCtx, landmarks,
+                            { color: '#FF0000', lineWidth: 2 });
+
+                        // Finger-Status erkennen und LEDs aktualisieren
+                        const fingerStates = this.detectFingers(landmarks);
+                        this.updateLEDs(fingerStates);
+                    }
+                } else {
+                    this.statusElement.textContent = "Keine Hand erkannt";
+                    this.updateLEDs([false, false, false, false, false]);
+                }
+            }
+        }
+
+        // Warten bis alle MediaPipe-Skripte geladen sind
+        window.onload = async () => {
+            // Sicherstellen, dass alle erforderlichen Objekte verfügbar sind
+            if (window.Hands && window.Camera && window.drawConnectors && window.drawLandmarks && window.HAND_CONNECTIONS) {
+                handTracking = new HandTrackingWeb();
+                await handTracking.setupCamera();
+            } else {
+                console.error('MediaPipe Komponenten nicht geladen');
+                document.getElementById('status').textContent = 'Fehler beim Laden der Komponenten';
+            }
+        };
+    </script>
+</body>
+</html>
