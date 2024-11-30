@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finger Status</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .video-container {
+            width: 100%;
+            height: 200px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+        }
+
+        .led-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .status {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .led-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .led {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .led-off {
+            background-color: #ccc;
+        }
+
+        .led-on {
+            background-color: #4CAF50;
+        }
+
+        .led-label {
+            font-size: 16px;
+            flex-grow: 1;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .led-row {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .led {
+                width: 30px;
+                height: 30px;
+            }
+
+            .led-label {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="video-container">
+            Video wird geladen...
+        </div>
+
+        <div class="led-container">
+            <div class="status" id="status">
+                Warte auf Kamera...
+            </div>
+
+            <div class="led-row">
+                <div id="led-thumb" class="led led-off"></div>
+                <div class="led-label">Daumen</div>
+            </div>
+
+            <div class="led-row">
+                <div id="led-index" class="led led-off"></div>
+                <div class="led-label">Zeigefinger</div>
+            </div>
+
+            <div class="led-row">
+                <div id="led-middle" class="led led-off"></div>
+                <div class="led-label">Mittelfinger</div>
+            </div>
+
+            <div class="led-row">
+                <div id="led-ring" class="led led-off"></div>
+                <div class="led-label">Ringfinger</div>
+            </div>
+
+            <div class="led-row">
+                <div id="led-pinky" class="led led-off"></div>
+                <div class="led-label">Kleiner Finger</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Optional: JavaScript für interaktive Funktionen
+        function updateFingerStatus(fingerId, isActive) {
+            const fingerLed = document.getElementById(fingerId);
+            if (isActive) {
+                fingerLed.classList.remove('led-off');
+                fingerLed.classList.add('led-on');
+            } else {
+                fingerLed.classList.remove('led-on');
+                fingerLed.classList.add('led-off');
+            }
+        }
+
+        // Beispiel für Statusaktualisierung
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        // Beispiel-Aufruf (kann durch echte Logik ersetzt werden)
+        // updateFingerStatus('led-thumb', true);
+        // updateStatus('Kamera verbunden');
+    </script>
+</body>
+</html>
