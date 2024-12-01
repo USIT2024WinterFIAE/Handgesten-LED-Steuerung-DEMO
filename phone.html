@@ -232,6 +232,7 @@
 
                 // Kamerabild spiegeln und zeichnen
                 this.canvasCtx.save();
+                // Hier kannst du die Drehung hinzufügen, wenn das Bild doppelt ist
                 this.canvasCtx.translate(this.canvasElement.width, 0);
                 this.canvasCtx.scale(-1, 1);
                 this.canvasCtx.drawImage(
@@ -253,6 +254,12 @@
                         this.updateLEDs(fingerStates);
                     }
                 } else {
+                    this.statusElement.textContent = "Keine Hand erkannt";
+                    this.updateLEDs([false, false, false, false, false]);
+                }
+            }
+                
+                else {
                     this.statusElement.textContent = "Keine Hand erkannt";
                     this.updateLEDs([false, false, false, false, false]);
                 }
