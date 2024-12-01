@@ -242,11 +242,6 @@
                     this.statusElement.textContent = "Hand erkannt";
 
                     for (const landmarks of results.multiHandLandmarks) {
-                        // Spiegeln der x-Koordinaten
-                        for (let i = 0; i < landmarks.length; i++) {
-                            landmarks[i].x = 1 - landmarks[i].x;
-                        }
-
                         // Hand-Landmarks zeichnen
                         drawConnectors(this.canvasCtx, landmarks, HAND_CONNECTIONS,
                             { color: '#00FF00', lineWidth: 5 });
@@ -258,6 +253,12 @@
                         this.updateLEDs(fingerStates);
                     }
                 } else {
+                    this.statusElement.textContent = "Keine Hand erkannt";
+                    this.updateLEDs([false, false, false, false, false]);
+                }
+            }
+                
+                else {
                     this.statusElement.textContent = "Keine Hand erkannt";
                     this.updateLEDs([false, false, false, false, false]);
                 }
