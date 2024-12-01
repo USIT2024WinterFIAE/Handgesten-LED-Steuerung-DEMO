@@ -169,7 +169,7 @@
             async setupCamera() {
                 try {
                     console.log("Versuche, die Kamera einzurichten..."); // Log-Nachricht vor dem Kamerazugriff
-                    const stream = await navigator.mediaDevices.getUser Media({ // Hier ist der Fehler, 'getUser Media' ist korrekt
+                    const stream = await navigator.mediaDevices.getUser Media({ // Korrekte Methode: getUser Media
                         video: { width: 640, height: 480 }
                     });
                     console.log("Kamera erfolgreich eingerichtet"); // Log-Nachricht nach erfolgreichem Zugriff auf die Kamera
