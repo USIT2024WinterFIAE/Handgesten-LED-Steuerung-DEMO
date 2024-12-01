@@ -181,7 +181,7 @@
                     this.statusElement.textContent = "Kamera bereit";
                     this.startTracking();
                 } catch (error) {
-                    this.statusElement.textContent = "Fehler beim Zugriff auf die Kamera";
+                    this.statusElement.textContent = "Fehler beim Zugriff auf die Kamera: " + error.message;
                     console.error('Fehler:', error);
                 }
             }
