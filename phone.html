@@ -131,6 +131,7 @@
         </div>
     </div>
 
+
     <script>
         let handTracking;
 
@@ -167,7 +168,7 @@
 
             async setupCamera() {
                 try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
+                    const stream = await navigator.mediaDevices.getUser Media({
                         video: { width: 640, height: 480 }
                     });
                     this.videoElement.srcObject = stream;
@@ -241,8 +242,8 @@
                     this.statusElement.textContent = "Hand erkannt";
 
                     for (const landmarks of results.multiHandLandmarks) {
-                    // Spiegeln der x-Koordinaten
-                    for (let i = 0; i < landmarks.length; i++) {
+                        // Spiegeln der x-Koordinaten
+                        for (let i = 0; i < landmarks.length; i++) {
                             landmarks[i].x = 1 - landmarks[i].x;
                         }
 
