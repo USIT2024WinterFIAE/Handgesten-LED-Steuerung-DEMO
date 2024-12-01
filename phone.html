@@ -201,7 +201,7 @@
                 const fingerStates = [false, false, false, false, false];
                 
                 // Daumen (basierend auf der x-Position)
-                fingerStates[0] = landmarks[4].x > landmarks[3].x; // Geänderte Bedingung für den Daumen
+                fingerStates[0] = landmarks[4].x < landmarks[3].x; // Geänderte Bedingung für den Daumen
                 
                 // Andere Finger (basierend auf der y-Position)
                 const fingerTips = [8, 12, 16, 20]; // Index, Mittel, Ring, Klein
