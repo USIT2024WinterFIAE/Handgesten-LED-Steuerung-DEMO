@@ -8,23 +8,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
     <style>
+        body {
+            background-color: #0f3c4a;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
         .container {
             display: flex;
             justify-content: space-between;
             padding: 20px;
             max-width: 900px;
             margin: 0 auto;
+            flex-wrap: wrap;
         }
+
         .video-container {
             position: relative;
             flex: 1;
             margin-right: 20px;
+            max-width: 100%;
         }
+
+        #input_video {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
         #output_canvas {
             position: absolute;
             left: 0;
             top: 0;
         }
+
         .led-container {
             width: 200px;
             padding: 20px;
@@ -32,6 +49,7 @@
             border-radius: 10px;
             height: fit-content;
         }
+
         .led {
             width: 40px;
             height: 40px;
@@ -40,23 +58,28 @@
             display: inline-block;
             transition: background-color 0.2s;
         }
+
         .led-label {
             display: inline-block;
             margin-left: 10px;
             width: 100px;
         }
+
         .led-row {
             margin: 10px 0;
             display: flex;
             align-items: center;
         }
+
         .led-off {
             background-color: rgb(255, 255, 255);
         }
+
         .led-on {
             background-color: #4CAF50;
             box-shadow: 0 0 10px #ffffff;
         }
+
         .status {
             text-align: center;
             margin: 10px 0;
@@ -64,12 +87,22 @@
             background-color: #f8f9fa;
             border-radius: 5px;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .video-container {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
     </style>
 </head>
-<body bgcolor="#0f3c4a">
+<body>
     <div class="container">
         <div class="video-container">
-            <video id="input_video" width="640" height="480" style="display: none;"></video>
+            <video id="input_video" width="640" height="480" autoplay playsinline></video>
             <canvas id="output_canvas" width="640" height="500"></canvas>
         </div>
         <div class="led-container">
@@ -97,6 +130,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
         let handTracking;
@@ -134,7 +168,7 @@
 
             async setupCamera() {
                 try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
+                    const stream = await navigator.mediaDevices.getUserMedia({ // Richtig: getUser Media
                         video: { width: 640, height: 480 }
                     });
                     this.videoElement.srcObject = stream;
@@ -147,7 +181,7 @@
                     this.statusElement.textContent = "Kamera bereit";
                     this.startTracking();
                 } catch (error) {
-                    this.statusElement.textContent = "Fehler beim Zugriff auf die Kamera";
+                    this.statusElement.textContent = "Fehler beim Zugriff auf die Kamera: " + error.message;
                     console.error('Fehler:', error);
                 }
             }
@@ -208,8 +242,8 @@
                     this.statusElement.textContent = "Hand erkannt";
 
                     for (const landmarks of results.multiHandLandmarks) {
-                    // Spiegeln der x-Koordinaten
-                    for (let i = 0; i < landmarks.length; i++) {
+                        // Spiegeln der x-Koordinaten
+                        for (let i = 0; i < landmarks.length; i++) {
                             landmarks[i].x = 1 - landmarks[i].x;
                         }
 
