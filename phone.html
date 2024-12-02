@@ -169,7 +169,7 @@
             async setupCamera() {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ // Richtig: getUser Media
-                        video: { width: 640, height: 480 }
+                        video: { width: 640, height: auto }
                     });
                     this.videoElement.srcObject = stream;
                     await new Promise((resolve) => {
