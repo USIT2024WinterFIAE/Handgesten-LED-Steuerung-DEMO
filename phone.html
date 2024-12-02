@@ -28,7 +28,6 @@
             flex: 1;
             margin-right: 20px;
             max-width: 100%;
-            max-height: 100%; /* Maximale Höhe für mobile Geräte */
         }
 
         #input_video {
@@ -230,7 +229,7 @@
             onResults(results) {
                 // Canvas löschen
                 this.canvasCtx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
-            
+
                 // Kamerabild spiegeln und zeichnen
                 this.canvasCtx.save();
                 this.canvasCtx.translate(this.canvasElement.width, 0);
@@ -238,17 +237,22 @@
                 this.canvasCtx.drawImage(
                     results.image, 0, 0, this.canvasElement.width, this.canvasElement.height);
                 this.canvasCtx.restore();
-            
-                // Überprüfen, ob Hände erkannt werden
+
                 if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
                     this.statusElement.textContent = "Hand erkannt";
+
                     for (const landmarks of results.multiHandLandmarks) {
+                        // Spiegeln der x-Koordinaten
+                        for (let i = 0; i < landmarks.length; i++) {
+                            landmarks[i].x = 1 - landmarks[i].x;
+                        }
+
                         // Hand-Landmarks zeichnen
                         drawConnectors(this.canvasCtx, landmarks, HAND_CONNECTIONS,
                             { color: '#00FF00', lineWidth: 5 });
                         drawLandmarks(this.canvasCtx, landmarks,
                             { color: '#FF0000', lineWidth: 2 });
-            
+
                         // Finger-Status erkennen und LEDs aktualisieren
                         const fingerStates = this.detectFingers(landmarks);
                         this.updateLEDs(fingerStates);
