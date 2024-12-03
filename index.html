@@ -58,6 +58,7 @@
                  -1px 1px 0 rgba(0, 0, 0, 0.2);
         }
 
+
         .led-container {
             width: 200px;
             padding: 20px;
@@ -136,12 +137,24 @@
             }
         }
 
+        .schrift_unten {
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+            position: relative;
+            color: white;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5), /* Gelbe Umrandung */
+                 -1px -1px 0 rgba(0, 0, 0, 0.5),
+                 1px -1px 0 rgba(0, 0, 0, 0.5),
+                 -1px 1px 0 rgba(0, 0, 0, 0.5);
+
+        }
 
         .container_menu {
             display: flex;
+            padding: 7px;
             justify-content: center;
             background-color: #01303c;
-            padding: 10px;
             max-width: lenghth-percentage;
             margin: 0 auto;
             flex-wrap: nowrap;
@@ -172,7 +185,7 @@
         .nav-links a {
             display: inline-block;
             white-space: nowrap;
-            padding: 12px 15px; 
+            padding: 15px 15px; 
             background-color: #0A988B; 
             color: white;
             font-weight: bold;
@@ -197,7 +210,7 @@
             font-size: 20px; 
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 800px) {
             .nav-links {
                 flex-direction: column; 
                 display: none; 
@@ -230,7 +243,7 @@
                 <li><a href="https://technische-dokumentation-9ld20ku.gamma.site/">Technische Details</a></li>
                 <li><a href="https://hardware-d2y0jrg.gamma.site/">Hardware</a></li>
                 <li><a href="https://contact-yoa0iiy.gamma.site/">Software</a></li>
-                <li><a href="https://live-demonstration-1vb2kva.gamma.site/">Live-Demonstration</Live-Demonstration></a></li>
+                <li><a href="https://live-demonstration-1vb2kva.gamma.site/">Live-Demonstration</a></li>
                 <li><a href="https://handgesten-led-steuerung-j3e69cg.gamma.site/">Home</a></li>
             </ul>
         </nav>   
@@ -239,6 +252,7 @@
         <div class="video-container">
             <video id="input_video" width="640" height="480" autoplay playsinline></video>
             <canvas id="output_canvas" width="640" height="482"></canvas>
+            
         </div>
         <div class="led-container">
             <div id="status" class="status">Warte auf Kamera...</div>
@@ -265,6 +279,7 @@
             </div>
         </div>
     </div>
+    <div class=schrift_unten>Halten Sie bitte Ihre Hand vor sich hin, damit die Handfläche zur Kamera zeigt</div>
 
 
 
@@ -315,7 +330,7 @@
     
                 async setupCamera() {
                     try {
-                        const stream = await navigator.mediaDevices.getUserMedia({ // Richtig: getUser Media
+                        const stream = await navigator.mediaDevices.getUserMedia({ // Richtig: getUserMedia
                             video: { width: 640, height: 480 }
                         });
                         this.videoElement.srcObject = stream;
