@@ -9,9 +9,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
     <style>
         body {
-            background-color: #0f3c4a;
+            background-image: url('file:///C:/Users/vmoser/Desktop/Untericht/Programieren/AnwP/GUI/Projeckte/venv/Project_pyka/Bilder/Bild1.png'); /* Ersetze mit Pfad zu dem Bild */
+            background-size: cover; /* Das Bild wird so skaliert, dass es den gesamten Hintergrund abdeckt */
+            background-position: top left; /* Das Bild wird zentriert */
+            background-repeat: no-repeat; /* Das Bild wird nicht wiederholt */
             margin: 0;
             font-family: Arial, sans-serif;
+            
         }
 
         .container {
@@ -34,20 +38,46 @@
             display: block;
             width: 50%;
             height: auto;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 0, 0.3); /* Leichte gelbe Umrandung */
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2), /* Gelbe Umrandung */
+                 -1px -1px 0 rgba(0, 0, 0, 0.2),
+                 1px -1px 0 rgba(0, 0, 0, 0.2),
+                 -1px 1px 0 rgba(0, 0, 0, 0.2);
         }
 
         #output_canvas {
             position: absolute;
             left: 0;
             top: 0;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 0, 0.3); /* Leichte gelbe Umrandung */
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2), /* Gelbe Umrandung */
+                 -1px -1px 0 rgba(0, 0, 0, 0.2),
+                 1px -1px 0 rgba(0, 0, 0, 0.2),
+                 -1px 1px 0 rgba(0, 0, 0, 0.2);
         }
 
         .led-container {
             width: 200px;
             padding: 20px;
-            background: #08695f;
+            background: #08695f; /* Hintergrundfarbe als Fallback */
             border-radius: 10px;
             height: fit-content;
+            background-image: url('file:///C:/Users/vmoser/Desktop/Untericht/Programieren/AnwP/GUI/Projeckte/venv/Project_pyka/Bilder/Bild1.png'); /* Ersetze 'dein-bild-url.jpg' mit dem Pfad zu deinem Bild */
+            background-size: cover; /* Das Bild wird so skaliert, dass es den gesamten Hintergrund abdeckt */
+            background-position: top left; /* Das Bild wird an der oberen linken Ecke ausgerichtet */
+            background-repeat: no-repeat; /* Das Bild wird nicht wiederholt */
+            color: white; /* Setzt die Schriftfarbe auf Weiß */
+            border: 2px solid rgba(255, 255, 0, 0.3); /* Leichte gelbe Umrandung */
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2), /* Gelbe Umrandung */
+                 -1px -1px 0 rgba(0, 0, 0, 0.2),
+                 1px -1px 0 rgba(0, 0, 0, 0.2),
+                 -1px 1px 0 rgba(0, 0, 0, 0.2);
+            h3 {
+               text-align: center; /* Zentriert nur den Titel in der LED-Container */
+                margin: 0; /* Optional: Entfernt den Standard-Außenabstand */
+                }
         }
 
         .led {
@@ -73,10 +103,14 @@
 
         .led-off {
             background-color: rgb(255, 255, 255);
+            box-shadow: 2px 2px 0 rgba(0, 0, 0, 50), /* Schwarze Umrandung */
+                 -2px -2px 0 rgba(0, 0, 0, 50),
+                 2px -2px 0 rgba(0, 0, 0, 50),
+                 -2px 2px 0 rgba(0, 0, 0, 50); 
         }
 
         .led-on {
-            background-color: #4CAF50;
+            background-color: #ffff00;
             box-shadow: 0 0 10px #ffffff;
         }
 
@@ -84,23 +118,13 @@
             text-align: center;
             margin: 10px 0;
             padding: 10px;
-            background-color: #f8f9fa;
+            background-color: #3fa513;
             border-radius: 5px;
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5), /* Schwarze Umrandung */
+                 -1px -1px 0 rgba(0, 0, 0, 0.5),
+                 1px -1px 0 rgba(0, 0, 0, 0.5),
+                 -1px 1px 0 rgba(0, 0, 0, 0.5); 
         }
-
-        .home {
-            text-align: center;
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #06dfdf;
-            border-radius: 5px;
-        }
-
-        .link-white-bold {
-            color: white;
-            font-weight: bold;
-            text-decoration: none; /* Keine Unterstreichung */
-        }        
 
         @media (max-width: 768px) {
             .container {
@@ -111,17 +135,114 @@
                 margin-bottom: 20px;
             }
         }
+
+
+        .container_menu {
+            display: flex;
+            justify-content: center;
+            background-color: #01303c;
+            padding: 10px;
+            max-width: lenghth-percentage;
+            margin: 0 auto;
+            flex-wrap: nowrap;
+            position: relative;
+        }
+
+        .navbar {
+            overflow: visible;
+            display: flex;
+            justify-content: center; /* Horizontale Zentrierung */ 
+            max-width: fit-content; 
+            position: relative; 
+        }
+
+        .nav-links {
+            list-style-type: none; 
+            padding: 0; 
+            margin: 0; 
+            display: flex; 
+            justify-content: space-around; 
+            flex-wrap: nowrap; 
+        }
+
+        .nav-links li {
+            margin: 4px; 
+        }
+
+        .nav-links a {
+            display: inline-block;
+            white-space: nowrap;
+            padding: 12px 15px; 
+            background-color: #0A988B; 
+            color: white;
+            font-weight: bold;
+            font-size: 18px; 
+            text-align: center; 
+            text-decoration: none; 
+            border: 2px solid transparent; 
+            border-radius: 5px; 
+            transition: background-color 0.3s, border-color 0.3s; 
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(3, 109, 69, 0.688); 
+            border-color: white; 
+        }
+
+        .hamburger {
+            display: none; 
+            cursor: pointer; 
+            padding: 14px; 
+            color: white; 
+            font-size: 20px; 
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                flex-direction: column; 
+                display: none; 
+                width: 100%; 
+                position: absolute; 
+                top: 100%; 
+                left: 0;
+                 
+                z-index: 1000; 
+                 
+            }
+
+            .navbar.active .nav-links {
+                display: flex; 
+            }
+
+            .hamburger {
+                display: block; 
+            }
+        }
+
     </style>
 </head>
 <body>
+    <div class="container_menu">
+        <nav class="navbar">
+            <div class="hamburger">☰</div> <!-- Hamburger-Button -->
+            <ul class="nav-links">
+                <li><a href="https://beschreibung-61pr8qn.gamma.site/">Beschreibung</a></li>
+                <li><a href="https://technische-dokumentation-9ld20ku.gamma.site/">Technische Details</a></li>
+                <li><a href="https://hardware-d2y0jrg.gamma.site/">Hardware</a></li>
+                <li><a href="https://contact-yoa0iiy.gamma.site/">Software</a></li>
+                <li><a href="https://live-demonstration-1vb2kva.gamma.site/">Live-Demonstration</Live-Demonstration></a></li>
+                <li><a href="https://handgesten-led-steuerung-j3e69cg.gamma.site/">Home</a></li>
+            </ul>
+        </nav>   
+    </div>
     <div class="container">
         <div class="video-container">
             <video id="input_video" width="640" height="480" autoplay playsinline></video>
-            <canvas id="output_canvas" width="640" height="500"></canvas>
+            <canvas id="output_canvas" width="640" height="482"></canvas>
         </div>
         <div class="led-container">
-            <h3>Finger Status</h3>
             <div id="status" class="status">Warte auf Kamera...</div>
+            <h3>Finger Status</h3>
             <div class="led-row">
                 <div id="led-thumb" class="led led-off"></div>
                 <span class="led-label">Daumen</span>
@@ -145,154 +266,184 @@
         </div>
     </div>
 
-    <a href="https://handgesten-led-steuerung-j3e69cg.gamma.site/" class="link-white-bold">
-        <div id="home" class="home">Home</div>
-        </a>
 
 
-    <script>
-        let handTracking;
 
-        class HandTrackingWeb {
-            constructor() {
-                this.videoElement = document.getElementById('input_video');
-                this.canvasElement = document.getElementById('output_canvas');
-                this.canvasCtx = this.canvasElement.getContext('2d');
-                this.statusElement = document.getElementById('status');
-                this.fingerLEDs = [
-                    document.getElementById('led-thumb'),
-                    document.getElementById('led-index'),
-                    document.getElementById('led-middle'),
-                    document.getElementById('led-ring'),
-                    document.getElementById('led-pinky')
-                ];
+        <script>
 
-                this.hands = new Hands({
-                    locateFile: (file) => {
-                        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-                    }
-                });
+            const hamburger = document.querySelector('.hamburger');
+            const navbar = document.querySelector('.navbar');
 
-                this.hands.setOptions({
-                    maxNumHands: 1,
-                    modelComplexity: 1,
-                    minDetectionConfidence: 0.5,
-                    minTrackingConfidence: 0.5
-                });
+            hamburger.addEventListener('click', () => {
+                navbar.classList.toggle('active');
+            });
 
-                this.hands.onResults(this.onResults.bind(this));
-                this.camera = null;
-            }
 
-            async setupCamera() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ // Richtig: getUser Media
-                        video: { width: 640, height: 480 }
-                    });
-                    this.videoElement.srcObject = stream;
-                    await new Promise((resolve) => {
-                        this.videoElement.onloadedmetadata = () => {
-                            resolve();
-                        };
-                    });
-                    this.videoElement.play();
-                    this.statusElement.textContent = "Kamera bereit";
-                    this.startTracking();
-                } catch (error) {
-                    this.statusElement.textContent = "Fehler beim Zugriff auf die Kamera: " + error.message;
-                    console.error('Fehler:', error);
-                }
-            }
 
-            startTracking() {
-                this.camera = new Camera(this.videoElement, {
-                    onFrame: async () => {
-                        await this.hands.send({image: this.videoElement});
-                    },
-                    width: 640,
-                    height: 480
-                });
-                this.camera.start();
-            }
-
-            detectFingers(landmarks) {
-                const fingerStates = [false, false, false, false, false];
-                
-                // Daumen (basierend auf der x-Position)
-                fingerStates[0] = landmarks[4].x < landmarks[3].x; // Geänderte Bedingung für den Daumen
-                
-                // Andere Finger (basierend auf der y-Position)
-                const fingerTips = [8, 12, 16, 20]; // Index, Mittel, Ring, Klein
-                for (let i = 0; i < 4; i++) {
-                    const tip = fingerTips[i];
-                    fingerStates[i + 1] = landmarks[tip].y < landmarks[tip - 2].y;
-                }
-
-                return fingerStates;
-            }
-
-            updateLEDs(fingerStates) {
-                fingerStates.forEach((isUp, index) => {
-                    const led = this.fingerLEDs[index];
-                    if (isUp) {
-                        led.classList.remove('led-off');
-                        led.classList.add('led-on');
-                    } else {
-                        led.classList.remove('led-on');
-                        led.classList.add('led-off');
-                    }
-                });
-            }
-
-            onResults(results) {
-                // Canvas löschen
-                this.canvasCtx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
-
-                // Kamerabild spiegeln und zeichnen
-                this.canvasCtx.save();
-                this.canvasCtx.translate(this.canvasElement.width, 0);
-                this.canvasCtx.scale(-1, 1);
-                this.canvasCtx.drawImage(
-                    results.image, 0, 0, this.canvasElement.width, this.canvasElement.height);
-                this.canvasCtx.restore();
-
-                if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
-                    this.statusElement.textContent = "Hand erkannt";
-
-                    for (const landmarks of results.multiHandLandmarks) {
-                        // Spiegeln der x-Koordinaten
-                        for (let i = 0; i < landmarks.length; i++) {
-                            landmarks[i].x = 1 - landmarks[i].x;
+            let handTracking;
+    
+            class HandTrackingWeb {
+                constructor() {
+                    this.videoElement = document.getElementById('input_video');
+                    this.canvasElement = document.getElementById('output_canvas');
+                    this.canvasCtx = this.canvasElement.getContext('2d');
+                    this.statusElement = document.getElementById('status');
+                    this.fingerLEDs = [
+                        document.getElementById('led-thumb'),
+                        document.getElementById('led-index'),
+                        document.getElementById('led-middle'),
+                        document.getElementById('led-ring'),
+                        document.getElementById('led-pinky')
+                    ];
+    
+                    this.hands = new Hands({
+                        locateFile: (file) => {
+                            return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
                         }
-
-                        // Hand-Landmarks zeichnen
-                        drawConnectors(this.canvasCtx, landmarks, HAND_CONNECTIONS,
-                            { color: '#00FF00', lineWidth: 5 });
-                        drawLandmarks(this.canvasCtx, landmarks,
-                            { color: '#FF0000', lineWidth: 2 });
-
-                        // Finger-Status erkennen und LEDs aktualisieren
-                        const fingerStates = this.detectFingers(landmarks);
-                        this.updateLEDs(fingerStates);
+                    });
+    
+                    this.hands.setOptions({
+                        maxNumHands: 1,
+                        modelComplexity: 1,
+                        minDetectionConfidence: 0.5,
+                        minTrackingConfidence: 0.5
+                    });
+    
+                    this.hands.onResults(this.onResults.bind(this));
+                    this.camera = null;
+                }
+    
+                async setupCamera() {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ // Richtig: getUser Media
+                            video: { width: 640, height: 480 }
+                        });
+                        this.videoElement.srcObject = stream;
+                        await new Promise((resolve) => {
+                            this.videoElement.onloadedmetadata = () => {
+                                resolve();
+                            };
+                        });
+                        this.videoElement.play();
+                        this.statusElement.textContent = "Kamera bereit";
+                        this.startTracking();
+                    } catch (error) {
+                        this.statusElement.textContent = "Fehler beim Zugriff auf die Kamera: " + error.message;
+                        console.error('Fehler:', error);
                     }
-                } else {
-                    this.statusElement.textContent = "Keine Hand erkannt";
-                    this.updateLEDs([false, false, false, false, false]);
+                }
+    
+                startTracking() {
+                    this.camera = new Camera(this.videoElement, {
+                        onFrame: async () => {
+                            await this.hands.send({image: this.videoElement});
+                        },
+                        width: 640,
+                        height: 480
+                    });
+                    this.camera.start();
+                }
+    
+                detectFingers(landmarks) {
+                    const fingerStates = [false, false, false, false, false];
+
+                    // Daumen (basierend auf der x-Position)
+                    const isLeftHand = landmarks[0].x < 4; // Überprüfen, ob es die linke Hand ist
+                    if (isLeftHand) {
+                        // Daumen der linken Hand
+                        fingerStates[0] = landmarks[4].y > landmarks[3].y; // Daumen ist hoch, wenn die y-Position des Daumens kleiner ist als die des Mittelgelenks
+                    } else {
+                        // Daumen der rechten Hand
+                        fingerStates[0] = landmarks[4].y < landmarks[3].y; // Daumen ist hoch, wenn die y-Position des Daumens kleiner ist als die des Mittelgelenks
+                    }
+
+                    // Andere Finger (basierend auf der y-Position)
+                    const fingerTips = [8, 12, 16, 20]; // Index, Mittel, Ring, Klein
+                    for (let i = 0; i < 4; i++) {
+                        const tip = fingerTips[i];
+                        fingerStates[i + 1] = landmarks[tip].y < landmarks[tip - 2].y; // Finger hoch oder runter
+                    }
+
+                    return fingerStates;
+                }
+    
+                updateLEDs(fingerStatesR) {
+                    fingerStatesR.forEach((isUp, index) => {
+                        const led = this.fingerLEDs[index];
+                        if (isUp) {
+                            led.classList.remove('led-off');
+                            led.classList.add('led-on');
+                        } else {
+                            led.classList.remove('led-on');
+                            led.classList.add('led-off');
+                        }
+                    });
+                }
+    
+                onResults(results) {
+                    // Canvas löschen
+                    this.canvasCtx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
+
+                    // Kamerabild spiegeln und zeichnen
+                    this.canvasCtx.save();
+                    this.canvasCtx.translate(this.canvasElement.width, 0);
+                    this.canvasCtx.scale(-1, 1);
+                    this.canvasCtx.drawImage(
+                        results.image, 0, 0, this.canvasElement.width, this.canvasElement.height);
+                    this.canvasCtx.restore();
+
+                    if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                        // Hier wird der Handstatus für jede erkannte Hand aktualisiert
+                        results.multiHandLandmarks.forEach((landmarks, index) => {
+                            const isLeftHand = results.multiHandedness[index].label === 'Left'; // Überprüfen, ob es die linke Hand ist
+                            
+                            // Aktualisiere den Status
+                            if (isLeftHand) {
+                                this.statusElement.textContent = "Rechte Hand erkannt";
+                            } else {
+                                this.statusElement.textContent = "Linke Hand erkannt";
+                            }
+
+                            // Spiegeln der x-Koordinaten für die linke Hand
+                            if (isLeftHand) {
+                                for (let i = 0; i < landmarks.length; i++) {
+                                    landmarks[i].x = 1 - landmarks[i].x; // Spiegeln der x-Koordinaten für die linke Hand
+                                }
+                            } else {
+                                // Spiegeln der x-Koordinaten für die rechte Hand
+                                for (let i = 0; i < landmarks.length; i++) {
+                                    landmarks[i].x = 1 - landmarks[i].x; // Spiegeln der x-Koordinaten für die rechte Hand
+                                }
+                            }
+
+                            // Hand-Landmarks zeichnen
+                            // drawConnectors(this.canvasCtx, landmarks, HAND_CONNECTIONS,
+                                // { color: '#00FF00', lineWidth: 5 });
+                            // drawLandmarks(this.canvasCtx, landmarks,
+                                // { color: '#FF0000', lineWidth: 2 });
+
+                            // Finger-Status erkennen und LEDs aktualisieren
+                            const fingerStatesR = this.detectFingers(landmarks);
+                            this.updateLEDs(fingerStatesR);
+                        });
+                    } else {
+                        this.statusElement.textContent = "Keine Hand erkannt";
+                        this.updateLEDs([false, false, false, false, false]);
+                    }
                 }
             }
-        }
-
-        // Warten bis alle MediaPipe-Skripte geladen sind
-        window.onload = async () => {
-            // Sicherstellen, dass alle erforderlichen Objekte verfügbar sind
-            if (window.Hands && window.Camera && window.drawConnectors && window.drawLandmarks && window.HAND_CONNECTIONS) {
-                handTracking = new HandTrackingWeb();
-                await handTracking.setupCamera();
-            } else {
-                console.error('MediaPipe Komponenten nicht geladen');
-                document.getElementById('status').textContent = 'Fehler beim Laden der Komponenten';
-            }
-        };
-    </script>
-</body>
-</html>
+    
+            // Warten bis alle MediaPipe-Skripte geladen sind
+            window.onload = async () => {
+                // Sicherstellen, dass alle erforderlichen Objekte verfügbar sind
+                if (window.Hands && window.Camera && window.drawConnectors && window.drawLandmarks && window.HAND_CONNECTIONS) {
+                    handTracking = new HandTrackingWeb();
+                    await handTracking.setupCamera();
+                } else {
+                    console.error('MediaPipe Komponenten nicht geladen');
+                    document.getElementById('status').textContent = 'Fehler beim Laden der Komponenten';
+                }
+            };
+        </script>
+    </body>
+    </html>
